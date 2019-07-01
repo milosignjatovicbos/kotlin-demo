@@ -17,6 +17,7 @@ kotlin {
             moduleKind = "commonjs"
             metaInfo = true
         }
+        browser()
     }
 
     sourceSets {
