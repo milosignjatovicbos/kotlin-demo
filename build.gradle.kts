@@ -2,9 +2,10 @@ group = "net.czweb.games.code-names"
 version = "1.0-SNAPSHOT"
 
 plugins {
-    kotlin("multiplatform") version "1.3.40" apply false
-    kotlin("jvm") version "1.3.40" apply false
-    kotlin("js") version "1.3.40" apply false
+    kotlin("multiplatform") version "1.3.41" apply false
+    kotlin("jvm") version "1.3.41" apply false
+    kotlin("js") version "1.3.41" apply false
+    id("kotlinx-serialization") version "1.3.41" apply false
 }
 
 tasks {

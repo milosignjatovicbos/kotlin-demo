@@ -4,7 +4,7 @@ plugins {
 	id("org.springframework.boot") version "2.2.0.BUILD-SNAPSHOT"
 	id("io.spring.dependency-management") version "0.6.0.RELEASE"
 	kotlin("jvm")
-	kotlin("plugin.spring") version "1.3.40"
+	kotlin("plugin.spring") version "1.3.41"
 }
 
 group = "net.czweb.games.code-names"
@@ -15,12 +15,15 @@ repositories {
 	mavenCentral()
 	maven { url = uri("https://repo.spring.io/snapshot") }
 	maven { url = uri("https://repo.spring.io/milestone") }
+	maven { url = uri("https://dl.bintray.com/kotlin/kotlinx") }
 }
 
 dependencies {
 	implementation(project(":common"))
 	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-websocket")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

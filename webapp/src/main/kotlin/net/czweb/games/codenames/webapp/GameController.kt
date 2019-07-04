@@ -15,4 +15,10 @@ class GamesController {
         return card.toString()
     }
 
+    @GetMapping
+    fun generateID(size: Int): String {
+        val source = "A1BCDEF4G0H8IJKLM7NOPQ3RST9UVWX52YZab1cd60ef2ghij3klmn49opq5rst6uvw7xyz8"
+        return (source).map { it }.shuffled().subList(0, size).joinToString("")
+    }
+
 }

@@ -3,10 +3,12 @@ version = "1.0-SNAPSHOT"
 
 plugins {
     kotlin("multiplatform")
+    id("kotlinx-serialization")
 }
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://dl.bintray.com/kotlin/kotlinx") }
 }
 
 kotlin {
@@ -24,6 +26,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:0.11.1")
             }
         }
         val commonTest by getting {
@@ -35,6 +38,7 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.1")
                 implementation(kotlin("stdlib-jdk8"))
             }
         }
@@ -47,6 +51,7 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.11.1")
                 implementation(kotlin("stdlib-js"))
             }
         }
