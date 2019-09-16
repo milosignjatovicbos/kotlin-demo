@@ -4,7 +4,7 @@ plugins {
 	id("org.springframework.boot") version "2.2.0.BUILD-SNAPSHOT"
 	id("io.spring.dependency-management") version "0.6.0.RELEASE"
 	kotlin("jvm")
-	kotlin("plugin.spring") version "1.3.41"
+	kotlin("plugin.spring") version "1.3.50"
 }
 
 group = "net.czweb.games.code-names"

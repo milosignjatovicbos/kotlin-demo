@@ -2,7 +2,7 @@ package net.czweb.games.codenames.enums
 
 class TopicUrls {
     companion object {
-        const val USER_INFO = "/topic/userinfo/{userId}"
+        const val USER_INFO = "/userinfo"
     }
 }
 
@@ -12,7 +12,7 @@ enum class Topic(val value: String) {
 
 class EndpointUrls {
     companion object {
-        const val GET_USERS = "/app/getusers/{userId}"
+        const val GET_USERS = "/getusers/{userId}"
     }
 }
 

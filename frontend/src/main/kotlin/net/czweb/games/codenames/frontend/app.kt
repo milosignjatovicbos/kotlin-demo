@@ -1,19 +1,15 @@
 package net.czweb.games.codenames.frontend
 
-import net.czweb.games.codenames.enums.Endpoint
 import net.czweb.games.codenames.enums.Topic
 import net.czweb.games.codenames.model.Card
 import net.czweb.games.codenames.model.User
 import react.*
 import react.dom.h1
 import react.dom.h2
-import wrappers.SockJS
-import wrappers.Stomp
-import wrappers.getDefaultSendOptions
-import wrappers.getDefaultStompConfig
 import kotlin.browser.window
 import kotlinx.serialization.json.*
 import kotlinx.serialization.*
+import wrappers.*
 
 interface AppState: RState {
     var infoFromServer: String
@@ -37,28 +33,25 @@ class App : RComponent<RProps, AppState>() {
         return (source).map { it }.shuffled().subList(0, size).joinToString("")
     }
 
-    private inline fun connect(): Stomp {
+    private fun connect(): Stomp {
         val socket = SockJS(websocketEndpoint)
         val stompClient = Stomp.over(socket)
-        stompClient.connect(getDefaultStompConfig()) { frame ->
+        stompClient.connect(StompConfig(connectionId)) {
             setState {
                 connected = true
             }
-            stompClient.subscribe(Topic.UserInfo.value.replace("{userId}", connectionId)) { data ->
+            stompClient.subscribe(Topic.UserInfo.value) { data ->
                 setState {
                     connectedUsers = Json.parse(User.serializer().list, data.body)
+                    console.log(connectedUsers)
                 }
             }
-            stompClient.send(Endpoint.GetUsers.value.replace("{userId}", connectionId),
-                    getDefaultSendOptions(),"")
         }
         return stompClient
     }
 
     private fun disconnect() {
-        if (stompClient !== null) {
-            stompClient.disconnect()
-        }
+        stompClient.disconnect()
         setState{
             connected = false
         }

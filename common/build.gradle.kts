@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
+
 group = "net.czweb.games.code-names"
 version = "1.0-SNAPSHOT"
 

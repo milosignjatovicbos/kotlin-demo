@@ -31,8 +31,8 @@ kotlin {
         implementation(npm("core-js", "3.1.1"))
         implementation(npm("react", "^16.6.0"))
         implementation(npm("react-dom", "^16.6.0"))
-        compileOnly( "org.jetbrains:kotlin-react:16.6.0-pre.73-kotlin-1.3.40")
-        compileOnly( "org.jetbrains:kotlin-react-dom:16.6.0-pre.73-kotlin-1.3.40")
+        compileOnly( "org.jetbrains:kotlin-react:16.9.0-pre.83-kotlin-1.3.50")
+        compileOnly( "org.jetbrains:kotlin-react-dom:16.9.0-pre.83-kotlin-1.3.50")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.11.1")
     }
 }
