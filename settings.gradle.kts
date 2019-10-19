@@ -18,4 +18,4 @@ rootProject.name = Project.name
 
 include(Modules.common,
 		Modules.frontend,
-		Modules.webapp)
+		Modules.backend)
