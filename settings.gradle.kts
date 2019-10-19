@@ -1,8 +1,8 @@
 pluginManagement {
 	repositories {
-		maven { url = uri("https://repo.spring.io/snapshot") }
-		maven { url = uri("https://repo.spring.io/milestone") }
-		maven { url = uri("https://dl.bintray.com/kotlin/kotlin-eap") }
+		maven { url = uri(Repositories.spring_snapshot) }
+		maven { url = uri(Repositories.spring_milestone) }
+		maven { url = uri(Repositories.kotlin_eap) }
 		gradlePluginPortal()
 	}
 	resolutionStrategy {
@@ -14,9 +14,8 @@ pluginManagement {
 		}
 	}
 }
-rootProject.name = "code-names"
-include(
-		":common",
-		":frontend",
-		":webapp"
-)
+rootProject.name = Project.name
+
+include(Modules.common,
+		Modules.frontend,
+		Modules.webapp)

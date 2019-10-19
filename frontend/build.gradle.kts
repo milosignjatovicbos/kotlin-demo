@@ -1,16 +1,16 @@
+group = Project.groupName
+version = Project.version
+
 plugins {
     kotlin("js")
 }
 
-group = "net.czweb.games.code-names"
-version = "1.0-SNAPSHOT"
-
 repositories {
     mavenCentral()
-    maven { url = uri("http://dl.bintray.com/kotlin/kotlin-dev") }
-    maven { url = uri("http://dl.bintray.com/kotlin/kotlinx") }
-    maven { url = uri("http://dl.bintray.com/kotlinx/kotlinx") }
-    maven { url = uri("http://dl.bintray.com/kotlin/kotlin-js-wrappers") }
+    maven { url = uri(Repositories.kotlin_kotlinDev) }
+    maven { url = uri(Repositories.kotlin_kotlinx) }
+    maven { url = uri(Repositories.kotlinx_kotlinx) }
+    maven { url = uri(Repositories.kotlinx_kotlinJsWrappers) }
 }
 
 kotlin {
@@ -20,19 +20,21 @@ kotlin {
             moduleKind = "commonjs"
             metaInfo = true
         }
-        browser {
-
-        }
+        browser()
     }
 
-    sourceSets["main"].dependencies {
-        implementation(project(":common"))
-        implementation(kotlin("stdlib-js"))
-        implementation(npm("core-js", "3.1.1"))
-        implementation(npm("react", "^16.6.0"))
-        implementation(npm("react-dom", "^16.6.0"))
-        compileOnly( "org.jetbrains:kotlin-react:16.9.0-pre.83-kotlin-1.3.50")
-        compileOnly( "org.jetbrains:kotlin-react-dom:16.9.0-pre.83-kotlin-1.3.50")
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.11.1")
+    sourceSets {
+        val main by getting {
+            dependencies {
+                implementation(project(Modules.common))
+                implementation(kotlin("stdlib-js"))
+                implementation(npm("core-js", Versions.core_js))
+                implementation(npm("react", Versions.react))
+                implementation(npm("react-dom", Versions.react))
+                compileOnly(Dependencies.kotlin_react)
+                compileOnly(Dependencies.kotlin_react_dom)
+                implementation(Dependencies.kotlinx_serialization_runtime_js)
+            }
+        }
     }
 }

@@ -1,7 +1,5 @@
-import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
-
-group = "net.czweb.games.code-names"
-version = "1.0-SNAPSHOT"
+group = Project.groupName
+version = Project.version
 
 plugins {
     kotlin("multiplatform")
@@ -10,7 +8,7 @@ plugins {
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://dl.bintray.com/kotlin/kotlinx") }
+    maven { url = uri(Repositories.kotlin_kotlinx) }
 }
 
 kotlin {
@@ -28,7 +26,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:0.11.1")
+                implementation(Dependencies.kotlinx_serialization_runtime_common)
             }
         }
         val commonTest by getting {
@@ -40,7 +38,7 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.1")
+                implementation(Dependencies.kotlinx_serialization_runtime_jvm)
                 implementation(kotlin("stdlib-jdk8"))
             }
         }
@@ -53,7 +51,7 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.11.1")
+                implementation(Dependencies.kotlinx_serialization_runtime_js)
                 implementation(kotlin("stdlib-js"))
             }
         }

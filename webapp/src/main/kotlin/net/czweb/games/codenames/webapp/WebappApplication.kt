@@ -3,8 +3,6 @@ package net.czweb.games.codenames.webapp
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 
-
-
 @SpringBootApplication
 class WebappApplication
 

@@ -1,41 +1,68 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+import org.springframework.boot.gradle.tasks.run.BootRun
+
+group = Project.groupName
+version = Project.version
+java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 plugins {
-	id("org.springframework.boot") version "2.2.0.BUILD-SNAPSHOT"
-	id("io.spring.dependency-management") version "0.6.0.RELEASE"
+	id("org.springframework.boot")
+	id("io.spring.dependency-management")
 	kotlin("jvm")
-	kotlin("plugin.spring") version "1.3.50"
+	kotlin("plugin.spring")
 }
-
-group = "net.czweb.games.code-names"
-version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
 	mavenCentral()
-	maven { url = uri("https://repo.spring.io/snapshot") }
-	maven { url = uri("https://repo.spring.io/milestone") }
-	maven { url = uri("https://dl.bintray.com/kotlin/kotlinx") }
+	maven { url = uri(Repositories.spring_snapshot) }
+	maven { url = uri(Repositories.spring_milestone) }
+	maven { url = uri(Repositories.kotlin_kotlinx) }
 }
 
-dependencies {
-	implementation(project(":common"))
-	implementation("org.springframework.boot:spring-boot-starter")
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.boot:spring-boot-starter-websocket")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-}
-
-tasks.withType<KotlinCompile> {
-	kotlinOptions {
-		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "1.8"
+kotlin {
+	sourceSets {
+		val main by getting {
+			dependencies {
+				implementation(project(Modules.common))
+				implementation(kotlin("reflect"))
+				implementation(kotlin("stdlib-jdk8"))
+				implementation(Dependencies.spring_boot_starter)
+				implementation(Dependencies.spring_boot_starter_web)
+				implementation(Dependencies.spring_boot_starter_websocket)
+				implementation(Dependencies.jackson_module_kotlin)
+			}
+		}
+		val test by getting {
+			dependencies {
+				implementation(Dependencies.spring_boot_starter_test)
+			}
+		}
 	}
 }
 
-tasks.named<Task>("bootJar") {
-	dependsOn(":copyFeResources")
+tasks {
+	withType<KotlinCompile> {
+		kotlinOptions {
+			freeCompilerArgs = listOf("-Xjsr305=strict")
+			jvmTarget = "1.8"
+		}
+	}
+
+	val copyTaskName = "copyFeResources"
+	register(copyTaskName, Copy::class) {
+		val frontendProjectPath = rootProject.childProjects[Modules.frontend.trim(':')]!!.projectDir.path
+		from("$frontendProjectPath/build/distributions")
+		from("$frontendProjectPath/src/main/resources")
+		into("build/resources/main/static")
+		dependsOn(Modules.frontend + ":browserWebpack")
+	}
+
+	withType<BootJar> {
+		dependsOn(copyTaskName)
+	}
+
+	withType<BootRun> {
+		dependsOn(copyTaskName)
+	}
 }

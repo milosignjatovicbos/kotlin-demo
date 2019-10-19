@@ -1,6 +1,6 @@
 package wrappers
 
-class StompConfig(val user: String, val passcode: String? = null)
+class StompConfig(val user: String? = null, val passcode: String? = null)
 fun getDefaultStompConfig(): StompConfig = js("{}")
 
 external class Frame {

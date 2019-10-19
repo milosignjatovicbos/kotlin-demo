@@ -1,26 +1,12 @@
-group = "net.czweb.games.code-names"
-version = "1.0-SNAPSHOT"
+group = Project.groupName
+version = Project.version
 
 plugins {
-    kotlin("multiplatform") version "1.3.50" apply false
-    kotlin("jvm") version "1.3.50" apply false
-    kotlin("js") version "1.3.50" apply false
-    id("kotlinx-serialization") version "1.3.50" apply false
-}
-
-tasks {
-    register<Copy>("copyFeResources", Copy::class) {
-
-        from("frontend/build/distributions") {
-            include("*.js")
-        }
-
-        from("frontend/src/main/resources") {
-            include("*")
-        }
-
-        into("webapp/src/main/resources/static")
-
-        dependsOn(":frontend:browserWebpack")
-    }
+    kotlin("multiplatform") version Versions.kotlin apply false
+    kotlin("jvm") version Versions.kotlin apply false
+    kotlin("js") version Versions.kotlin apply false
+    kotlin("plugin.spring") version Versions.kotlin apply false
+    id("kotlinx-serialization") version Versions.kotlin apply false
+    id("org.springframework.boot") version Versions.spring apply false
+    id("io.spring.dependency-management") version Versions.spring_dependency_management apply false
 }
