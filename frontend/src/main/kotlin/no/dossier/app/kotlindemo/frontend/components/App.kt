@@ -8,27 +8,37 @@ import kotlin.browser.window
 import kotlinx.serialization.json.*
 import kotlinx.serialization.list
 import kotlinx.serialization.serializer
-import no.dossier.app.kotlindemo.api.Endpoint
-import no.dossier.app.kotlindemo.api.EventType
-import no.dossier.app.kotlindemo.api.Message
-import no.dossier.app.kotlindemo.api.Topic
+import no.dossier.app.kotlindemo.api.*
+import no.dossier.app.kotlindemo.config.AppConfig
 import no.dossier.app.kotlindemo.frontend.contexts.appContext
 import no.dossier.app.kotlindemo.frontend.wrappers.*
 
 interface AppState: RState {
+    //variables
     var fetchedUser: User?
     var connected: Boolean
     var connections: MutableList<String>
+    var chatContent: String
+
+    //actions
+    var sendChatMessage: (String) -> Unit
 }
 
 class App : RComponent<RProps, AppState>() {
 
-    val websocketEndpoint: String = "http://" + window.location.host.split(':')[0] + ":8080/websocket"
-
+    private val websocketEndpoint: String = ("http://" + window.location.host.split(':')[0] + ":"
+            + AppConfig.ServerPort + AppConfig.WebSocketEndpoint)
     private var stompClient: Stomp = connect()
 
     init {
         state.connections = mutableListOf()
+        state.sendChatMessage = ::handleSendMessage
+        state.chatContent = ""
+    }
+
+    private fun handleSendMessage(message: String) {
+        stompClient.send(WsEndpoint.SendChatMessage.prefixedUrl,
+                getDefaultSendOptions(), Json.stringify(Message.ChatMessage.serializer(),Message.ChatMessage(message)))
     }
 
     private fun connect(): Stomp {
@@ -50,7 +60,7 @@ class App : RComponent<RProps, AppState>() {
     }
 
     override fun componentDidMount() {
-        window.fetch(Endpoint.GetUser.value.replace("{userId}", 1.toString())).then {
+        window.fetch(RestEndpoint.GetUser.value.replace("{userId}", 1.toString())).then {
             it.text()
         }.then {
             setState {
@@ -72,16 +82,20 @@ class App : RComponent<RProps, AppState>() {
                 }
             }
 
-            window.fetch(Endpoint.GetAllConnections.value).then {
+            stompClient.subscribe(Topic.Chat.value) { data ->
+                setState {
+                    val message = Json.parse(Message.ChatMessage.serializer(), data.body)
+                    chatContent += "${message.timeStamp}: ${message.message}\n"
+                }
+            }
+
+            window.fetch(RestEndpoint.GetAllConnections.value).then {
                 it.text()
             }.then {
                 setState {
                     connections = Json.parse(String::class.serializer().list, it).toMutableList()
                 }
             }
-
-            /*stompClient.send(Endpoint.UpdateUser.value.replace("{userId}", connectionId),
-                    getDefaultSendOptions(),"")*/
         }
     }
 
@@ -100,6 +114,7 @@ class App : RComponent<RProps, AppState>() {
                 +"Active connections: "
             }
             connectionsList()
+            chat()
         }
     }
 }

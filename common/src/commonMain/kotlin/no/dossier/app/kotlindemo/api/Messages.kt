@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 enum class EventType {
     NewConnection,
-    ConnectionClosed
+    ConnectionClosed,
 }
 
 @Serializable
@@ -12,4 +12,5 @@ sealed class Message {
     val messageType = this::class.simpleName
 
     @Serializable class ConnectionUpdated(val connectionId: String, val eventType: EventType) : Message()
+    @Serializable class ChatMessage(val message: String, var timeStamp: String? = null) : Message()
 }
