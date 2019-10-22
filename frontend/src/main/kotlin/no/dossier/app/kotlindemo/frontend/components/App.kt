@@ -1,7 +1,7 @@
 package no.dossier.app.kotlindemo.frontend.components
 
 import kotlinx.serialization.ImplicitReflectionSerializer
-import no.dossier.app.kotlindemo.model.User
+import no.dossier.app.kotlindemo.domain.User
 import react.*
 import react.dom.*
 import kotlin.browser.window
