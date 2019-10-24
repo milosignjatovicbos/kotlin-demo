@@ -7,5 +7,5 @@ import no.dossier.app.kotlindemo.utils.getPlatformName
 data class User(val name: String, val surname: String, val createdOn: String = getPlatformName()) {
 
     val formattedName: String
-        get() = "$name $surname (created on $createdOn)"
+        get() = "$name $surname (created on $createdOn platform)"
 }

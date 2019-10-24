@@ -1,4 +1,3 @@
-import org.gradle.internal.fingerprint.impl.ClasspathFingerprintingStrategy.runtimeClasspath
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 import org.springframework.boot.gradle.tasks.run.BootRun
