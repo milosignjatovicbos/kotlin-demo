@@ -1,7 +1,7 @@
 package no.dossier.app.kotlindemo.frontend.contexts
 
 import no.dossier.app.kotlindemo.frontend.components.AppState
-import no.dossier.app.kotlindemo.model.User
+import no.dossier.app.kotlindemo.domain.User
 import react.createContext
 
 val defaultState = object : AppState {
