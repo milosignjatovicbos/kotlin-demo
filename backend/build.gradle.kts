@@ -1,3 +1,4 @@
+import org.gradle.internal.fingerprint.impl.ClasspathFingerprintingStrategy.runtimeClasspath
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 import org.springframework.boot.gradle.tasks.run.BootRun
@@ -31,6 +32,8 @@ kotlin {
 				implementation(Dependencies.spring_boot_starter_web)
 				implementation(Dependencies.spring_boot_starter_websocket)
 				implementation(Dependencies.jackson_module_kotlin)
+				implementation(Dependencies.kotlinx_serialization_runtime_jvm)
+				implementation("org.springframework.boot:spring-boot-devtools")
 			}
 		}
 		val test by getting {
@@ -56,6 +59,7 @@ tasks {
 		from("$frontendProjectPath/src/main/resources")
 		into("build/resources/main/static")
 		dependsOn(Modules.frontend + ":browserWebpack")
+		dependsOn(Modules.frontend + ":build")
 	}
 
 	withType<BootJar> {
