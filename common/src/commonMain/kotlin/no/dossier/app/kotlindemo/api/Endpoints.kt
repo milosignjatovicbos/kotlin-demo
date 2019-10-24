@@ -28,12 +28,14 @@ enum class WsEndpoint(val value: String) {
 
 enum class RestEndpoint(val value: String) {
     GetUser(Urls.GET_USER),
-    GetAllConnections(Urls.GET_ALL_CONNECTIONS);
+    GetAllConnections(Urls.GET_ALL_CONNECTIONS),
+    GetAllProducts(Urls.GET_PRODUCT);
 
     class Urls {
         companion object {
             const val GET_USER = "/users/{userId}"
             const val GET_ALL_CONNECTIONS = "/connections/all"
+            const val GET_PRODUCT = "/products/{productId}"
         }
     }
 }

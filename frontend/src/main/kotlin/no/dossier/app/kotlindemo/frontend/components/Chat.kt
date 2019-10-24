@@ -9,7 +9,6 @@ import kotlinx.html.style
 import react.*
 import no.dossier.app.kotlindemo.frontend.contexts.appContext
 import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.events.KeyboardEvent
 import react.dom.*
 
 interface ChatState: RState {

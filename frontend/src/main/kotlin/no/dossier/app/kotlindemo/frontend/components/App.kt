@@ -12,10 +12,14 @@ import no.dossier.app.kotlindemo.api.*
 import no.dossier.app.kotlindemo.config.AppConfig
 import no.dossier.app.kotlindemo.frontend.contexts.appContext
 import no.dossier.app.kotlindemo.frontend.wrappers.*
+import no.dossier.app.kotlindemo.domain.DossierApplication
+import no.dossier.app.kotlindemo.domain.ProductInfo
+import no.dossier.app.kotlindemo.domain.dossierApplicationModule
 
 interface AppState: RState {
     //variables
     var fetchedUser: User?
+    var product: DossierApplication?
     var connected: Boolean
     var connections: MutableList<String>
     var chatContent: String
@@ -26,8 +30,8 @@ interface AppState: RState {
 
 class App : RComponent<RProps, AppState>() {
 
-    private val websocketEndpoint: String = ("http://" + window.location.host.split(':')[0] + ":"
-            + AppConfig.ServerPort + AppConfig.WebSocketEndpoint)
+    private val websocketEndpoint: String = ("http://" + window.location.host + AppConfig.WebSocketEndpoint)
+    private val restEndpoint: String = ("http://" + window.location.host)
     private var stompClient: Stomp = connect()
 
     init {
@@ -60,11 +64,20 @@ class App : RComponent<RProps, AppState>() {
     }
 
     override fun componentDidMount() {
-        window.fetch(RestEndpoint.GetUser.value.replace("{userId}", 1.toString())).then {
+        window.fetch(restEndpoint + RestEndpoint.GetUser.value.replace("{userId}", 1.toString())).then {
             it.text()
         }.then {
             setState {
                 fetchedUser = Json.nonstrict.parse(User.serializer(), it)
+            }
+        }
+
+        window.fetch(restEndpoint + RestEndpoint.GetAllProducts.value.replace("{productId}", 1.toString())).then {
+            it.text()
+        }.then {
+            setState {
+                product = Json(JsonConfiguration(strictMode = false), context = dossierApplicationModule)
+                        .parse(ProductInfo.serializer(), it).product
             }
         }
     }
@@ -89,7 +102,7 @@ class App : RComponent<RProps, AppState>() {
                 }
             }
 
-            window.fetch(RestEndpoint.GetAllConnections.value).then {
+            window.fetch(restEndpoint + RestEndpoint.GetAllConnections.value).then {
                 it.text()
             }.then {
                 setState {
@@ -115,6 +128,7 @@ class App : RComponent<RProps, AppState>() {
             }
             connectionsList()
             chat()
+            product()
         }
     }
 }

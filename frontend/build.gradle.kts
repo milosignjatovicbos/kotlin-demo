@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+
 group = Project.groupName
 version = Project.version
 
@@ -20,7 +22,22 @@ kotlin {
             moduleKind = "commonjs"
             metaInfo = true
         }
-        browser()
+        browser {
+            runTask {
+                devServer = KotlinWebpackConfig.DevServer(
+                        contentBase = listOf( project.buildDir.path + "/distributions",
+                                project.projectDir.path+ "/src/main/resources"),
+                        proxy = mapOf("*" to "http://localhost:8080"),
+                        port = 8090)
+                dependsOn("browserWebpack")
+            }
+        }
+    }
+
+    tasks {
+        val browserWebpack by getting {
+            outputs.upToDateWhen { false }
+        }
     }
 
     sourceSets {
