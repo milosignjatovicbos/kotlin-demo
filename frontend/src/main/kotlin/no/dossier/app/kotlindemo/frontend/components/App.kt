@@ -10,8 +10,10 @@ import kotlinx.serialization.list
 import kotlinx.serialization.serializer
 import no.dossier.app.kotlindemo.api.*
 import no.dossier.app.kotlindemo.config.AppConfig
+import no.dossier.app.kotlindemo.domain.Beer
 import no.dossier.app.kotlindemo.frontend.contexts.appContext
 import no.dossier.app.kotlindemo.frontend.wrappers.*
+import kotlin.js.Promise
 
 interface AppState: RState {
     //variables
@@ -19,6 +21,7 @@ interface AppState: RState {
     var connected: Boolean
     var connections: MutableList<String>
     var chatContent: String
+    var fetchedBeers: List<Beer>?
 
     //actions
     var sendChatMessage: (String) -> Unit
@@ -59,6 +62,7 @@ class App : RComponent<RProps, AppState>() {
         }
     }
 
+    @ImplicitReflectionSerializer
     override fun componentDidMount() {
         window.fetch(RestEndpoint.GetDemoUser.value.replace("{userId}", 1.toString())).then {
             it.text()
@@ -67,6 +71,16 @@ class App : RComponent<RProps, AppState>() {
                 fetchedUser = Json.nonstrict.parse(User.serializer(), it)
             }
         }
+
+        window.fetch(RestEndpoint.GetAllBeers.value)
+            .then {
+                var r = it.clone()
+                r.text().then {
+                    setState {
+                        fetchedBeers = Json.nonstrict.parse(Beer.serializer().list, it)
+                    }
+                }
+            }
     }
 
     @ImplicitReflectionSerializer
@@ -102,19 +116,13 @@ class App : RComponent<RProps, AppState>() {
     override fun RBuilder.render() {
         appContext.Provider(state) {
             h1 {
-                +"Kotlin demo"
+                +"Beerer"
             }
             h3 {
-                +User("Hanses", "Oddvindsen").formattedName
+                +"Beer rating app"
             }
-            h3 {
-                +(state.fetchedUser?.formattedName ?: "")
-            }
-            h3 {
-                +"Active connections: "
-            }
-            connectionsList()
-            chat()
+            mainMenu()
+            beerList()
         }
     }
 }

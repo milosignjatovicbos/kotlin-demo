@@ -32,6 +32,7 @@ enum class RestEndpoint(val value: String) {
     Users(Urls.USERS),
     User(Urls.USER),
     BeerRatings(Urls.BEER_RATINGS);
+    GetAllBeers(Urls.GET_ALL_BEERS);
 
     class Urls {
         companion object {
@@ -40,7 +41,7 @@ enum class RestEndpoint(val value: String) {
             const val USERS = "/users"
             const val USER = "/users/{userId}"
             const val BEER_RATINGS = "/beer-ratings"
+            const val GET_ALL_BEERS = "https://api.punkapi.com/v2/beers?brewed_before=11-2012&abv_gt=6"
         }
     }
-
 }
