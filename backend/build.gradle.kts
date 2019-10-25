@@ -30,9 +30,11 @@ kotlin {
 				implementation(Dependencies.spring_boot_starter)
 				implementation(Dependencies.spring_boot_starter_web)
 				implementation(Dependencies.spring_boot_starter_websocket)
+				implementation(Dependencies.spring_boot_starter_jdbc)
 				implementation(Dependencies.jackson_module_kotlin)
 				implementation(Dependencies.kotlinx_serialization_runtime_jvm)
 				implementation("org.springframework.boot:spring-boot-devtools")
+				runtimeOnly("org.postgresql:postgresql")
 			}
 		}
 		val test by getting {

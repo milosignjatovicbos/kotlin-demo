@@ -10,6 +10,7 @@ object Dependencies {
     const val spring_boot_starter_web = "org.springframework.boot:spring-boot-starter-web"
     const val spring_boot_starter_websocket = "org.springframework.boot:spring-boot-starter-websocket"
     const val spring_boot_starter_test = "org.springframework.boot:spring-boot-starter-test"
+    const val spring_boot_starter_jdbc = "org.springframework.boot:spring-boot-starter-jdbc"
 
     const val jackson_module_kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin"
 
