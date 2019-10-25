@@ -18,8 +18,11 @@ class UserRepository @Autowired constructor(private val jdbcTemplate: JdbcTempla
                 ResultSetExtractor { return@ResultSetExtractor if (it.next()) extractUser(it) else null });
     }
 
-    fun getUsers(): UsersDTO {
-        val users = jdbcTemplate.query("SELECT user_id, user_first_name, user_surname, user_username FROM beer_users") { rs, _ -> extractUser(rs) }
+    fun getUsers(username: String?): UsersDTO {
+        val usernameFilter = if (username is String) "AND user_username = '$username'" else ""
+        val users = jdbcTemplate.query("SELECT user_id, user_first_name, user_surname, user_username FROM beer_users WHERE TRUE $usernameFilter") { rs, _ ->
+            extractUser(rs)
+        }
         return UsersDTO(users.toTypedArray());
     }
 

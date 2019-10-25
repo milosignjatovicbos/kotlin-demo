@@ -11,7 +11,9 @@ object Dependencies {
     const val spring_boot_starter_websocket = "org.springframework.boot:spring-boot-starter-websocket"
     const val spring_boot_starter_test = "org.springframework.boot:spring-boot-starter-test"
     const val spring_boot_starter_jdbc = "org.springframework.boot:spring-boot-starter-jdbc"
+    const val spring_boot_starter_webflux = "org.springframework.boot:spring-boot-starter-webflux"
 
+    const val reactor_spring = "org.projectreactor:reactor-spring:1.0.1.RELEASE"
     const val jackson_module_kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin"
 
     const val kotlin_react = "org.jetbrains:kotlin-react:${Versions.kotlin_react}"

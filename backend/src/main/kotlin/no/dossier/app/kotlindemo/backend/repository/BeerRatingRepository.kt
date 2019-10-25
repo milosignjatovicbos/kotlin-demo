@@ -17,8 +17,8 @@ import java.sql.Statement
 class BeerRatingRepository @Autowired constructor(private val jdbcTemplate: JdbcTemplate) {
 
     fun createRating(rating: BeerRatingPostRequestDTO): BeerRatingsPostResponseDTO {
-        val statementCreator = PreparedStatementCreator { conn ->
-            val statement: PreparedStatement = conn.prepareStatement(
+        val statementCreator = PreparedStatementCreator {
+            val statement: PreparedStatement = it.prepareStatement(
                     "INSERT INTO beer_rating(rating_beer_id, rating_user_id, rating_rating) VALUES (?,?,?)",
                     Statement.RETURN_GENERATED_KEYS)
             statement.setInt(1, rating.beerId)
