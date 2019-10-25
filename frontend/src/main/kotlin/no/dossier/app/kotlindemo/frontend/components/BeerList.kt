@@ -1,10 +1,10 @@
 package no.dossier.app.kotlindemo.frontend.components
 
-import kotlinext.js.asJsObject
 import react.*
 import no.dossier.app.kotlindemo.frontend.contexts.appContext
+import org.w3c.dom.HTMLDivElement
 import react.dom.*
-import kotlin.js.Promise
+import kotlin.browser.document
 
 class BeerList : RComponent<RProps, RState>() {
 
@@ -13,14 +13,17 @@ class BeerList : RComponent<RProps, RState>() {
             div {
                 div {
                     state.fetchedBeers?.forEach {
-                        div {
+                        span {
                             img {
                                 attrs {
+                                    width = "212px"
                                     src = it.image_url
                                     alt = it.name
                                 }
                             }
-
+                            span {
+                                +it.name
+                            }
                         }
                     }
                 }

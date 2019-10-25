@@ -64,14 +64,6 @@ class App : RComponent<RProps, AppState>() {
 
     @ImplicitReflectionSerializer
     override fun componentDidMount() {
-        window.fetch(RestEndpoint.GetDemoUser.value.replace("{userId}", 1.toString())).then {
-            it.text()
-        }.then {
-            setState {
-                fetchedUser = Json.nonstrict.parse(User.serializer(), it)
-            }
-        }
-
         window.fetch(RestEndpoint.GetAllBeers.value)
             .then {
                 var r = it.clone()
