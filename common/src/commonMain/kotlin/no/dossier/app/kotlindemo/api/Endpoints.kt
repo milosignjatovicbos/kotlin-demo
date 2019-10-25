@@ -27,13 +27,20 @@ enum class WsEndpoint(val value: String) {
 }
 
 enum class RestEndpoint(val value: String) {
-    GetUser(Urls.GET_USER),
-    GetAllConnections(Urls.GET_ALL_CONNECTIONS);
+    GetDemoUser(Urls.GET_DEMO_USER),
+    GetAllConnections(Urls.GET_ALL_CONNECTIONS),
+    Users(Urls.USERS),
+    User(Urls.USER),
+    BeerRatings(Urls.BEER_RATINGS);
 
     class Urls {
         companion object {
-            const val GET_USER = "/users/{userId}"
+            const val GET_DEMO_USER = "/demo-users/{userId}"
             const val GET_ALL_CONNECTIONS = "/connections/all"
+            const val USERS = "/users"
+            const val USER = "/users/{userId}"
+            const val BEER_RATINGS = "/beer-ratings"
         }
     }
+
 }

@@ -60,7 +60,7 @@ class App : RComponent<RProps, AppState>() {
     }
 
     override fun componentDidMount() {
-        window.fetch(RestEndpoint.GetUser.value.replace("{userId}", 1.toString())).then {
+        window.fetch(RestEndpoint.GetDemoUser.value.replace("{userId}", 1.toString())).then {
             it.text()
         }.then {
             setState {
