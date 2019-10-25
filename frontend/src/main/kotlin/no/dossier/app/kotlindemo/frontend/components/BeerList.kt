@@ -11,7 +11,7 @@ class BeerList : RComponent<RProps, RState>() {
     override fun RBuilder.render() {
         appContext.Consumer { state ->
             div {
-                div {
+                div(classes = "wrap_beers") {
                     state.fetchedBeers?.forEach {
                         span {
                             img {
