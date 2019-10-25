@@ -31,7 +31,7 @@ enum class RestEndpoint(val value: String) {
     GetAllConnections(Urls.GET_ALL_CONNECTIONS),
     Users(Urls.USERS),
     User(Urls.USER),
-    BeerRatings(Urls.BEER_RATINGS);
+    BeerRatings(Urls.BEER_RATINGS),
     GetAllBeers(Urls.GET_ALL_BEERS);
 
     class Urls {
